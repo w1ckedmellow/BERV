@@ -1,0 +1,31 @@
+{
+  "name": "bun-elysia-vite-react-monorepo",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently \"bun run dev:server\" \"bun run dev:client\"",
+    "dev:client": "cd client && bun run dev",
+    "dev:server": "cd server && bun run dev",
+    "build": "bun run build --workspaces --if-present",
+    "install:all": "bun install && bun install --workspaces"
+  },
+  "keywords": [
+    "bun",
+    "Elysia",
+    "react",
+    "vite",
+    "monorepo"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest",
+    "concurrently": "^8.2.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
