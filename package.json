@@ -21,7 +21,9 @@
     "vite",
     "monorepo"
   ],
+  "dependencies": {},
   "devDependencies": {
+    "@elysiajs/eden": "latest",
     "@types/bun": "latest",
     "concurrently": "^8.2.2"
   },

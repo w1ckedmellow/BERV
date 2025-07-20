@@ -1,25 +1,27 @@
+import { treaty } from '@elysiajs/eden'
+import type { ApiType, ListResponseType } from './../../server/src/index'
 import { useState } from 'react'
-import beaver from './assets/beaver.svg'
+import glasses from './assets/3d.svg'
 import './App.css'
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000"
+const SERVER_URL = import.meta.env.VITE_SERVER_URL || "localhost:3000"
 
-const client = hcWithType(SERVER_URL);
-
-type ResponseType = Awaited<ReturnType<typeof client.hello.$get>>;
+const api = treaty<ApiType>(SERVER_URL);
 
 function App() {
-  const [data, setData] = useState<Awaited<ReturnType<ResponseType["json"]>> | undefined>()
+  const [data, setData] = useState<ListResponseType | null>(null)
 
   async function sendRequest() {
     try {
-      const res = await client.hello.$get()
-      if (!res.ok) {
+      const res = await api.list({ 'skibidi': 22 }).get();
+      console.log("Response ", res);
+
+
+      if (res.status !== 200 && !res.data) {
         console.log("Error fetching data")
         return
       }
-      const data = await res.json()
-      setData(data)
+      setData(res.data)
     } catch (error) {
       console.log(error)
     }
@@ -28,25 +30,24 @@ function App() {
   return (
     <>
       <div>
-        <a href="https://github.com/stevedylandev/bhvr" target="_blank">
-          <img src={beaver} className="logo" alt="beaver logo" />
+        <a href="https://github.com/w1ckedmellow/BERV" target="_blank">
+          <img src={glasses} className="logo" alt="glasses logo" />
         </a>
       </div>
-      <h1>bhvr</h1>
-      <h2>Bun + Hono + Vite + React</h2>
+      <h1>BERV</h1>
+      <h2>Bun + Elysia + React + Vite</h2>
       <p>A typesafe fullstack monorepo</p>
       <div className="card">
         <div className='button-container'>
           <button onClick={sendRequest}>
             Call API
           </button>
-          <a className='docs-link' target='_blank' href="https://bhvr.dev">Docs</a>
         </div>
         {data && (
           <pre className='response'>
+            Message: <br />
             <code>
-              Message: {data.message} <br />
-              Success: {data.success.toString()}
+              {JSON.stringify(data)}
             </code>
           </pre>
         )}
