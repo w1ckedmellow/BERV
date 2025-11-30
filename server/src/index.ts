@@ -1,10 +1,9 @@
 import { Elysia, t } from 'elysia';
 import { cors } from '@elysiajs/cors'
 import { swagger } from '@elysiajs/swagger'
-import { opentelemetry } from '@elysiajs/opentelemetry'
-
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
+// import { opentelemetry } from '@elysiajs/opentelemetry'
+// import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
+// import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
 
 const ListResponse = t.Array(t.Object({
       platform: t.String(),
@@ -14,15 +13,9 @@ const ListResponse = t.Array(t.Object({
 export type ListResponseType = typeof ListResponse.static
 
 
-
 export const app = new Elysia()
       .use(cors())
       .use(swagger())
-      .use(
-            opentelemetry({
-                  spanProcessors: [new BatchSpanProcessor(new OTLPTraceExporter())]
-            })
-      )
 
       .get('/hello', () => "Ahoy!!!")
 

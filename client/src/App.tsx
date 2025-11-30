@@ -7,6 +7,7 @@ import './App.css'
 const SERVER_URL = import.meta.env.VITE_SERVER_URL || "localhost:3000"
 
 const api = treaty<ApiType>(SERVER_URL);
+//    ^?
 
 function App() {
   const [data, setData] = useState<ListResponseType | null>(null)
@@ -14,6 +15,8 @@ function App() {
   async function sendRequest() {
     try {
       const res = await api.list({ 'skibidi': 22 }).get();
+      //    ^?
+
       console.log("Response ", res);
 
 
